@@ -10,9 +10,11 @@ def iqCB(conn,iq_node):
 
 def messageCB(conn,msg):
     global pointicqsourcejid
-    if (msg.getFrom() == pointicqsourcejid):
+    if ( msg.getFrom() == pointicqsourcejid and msg.getBody().find('validate.icq.com') == -1 ):
         conn.send(xmpp.Message('p@point.im',msg.getBody()))
-    if (msg.getFrom() == 'p@point.im/point'):
+    else:
+        conn.send(xmpp.Message(pointicqsourcejid,msg.getBody()))
+    if ( msg.getFrom() == 'p@point.im/point' ):
         conn.send(xmpp.Message(pointicqsourcejid,msg.getBody()))
 
 def presenceCB(conn,msg):
